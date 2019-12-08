@@ -1,0 +1,52 @@
+# Ignore files
+Debug/Try_OpenGL_UI.exe
+Debug/Try_OpenGL_UI.ilk
+Debug/Try_OpenGL_UI.pdb
+.vs/Try_OpenGL_UI/v15/Browse.VS.db
+.vs/Try_OpenGL_UI/v15/Browse.VS.opendb
+Try_OpenGL_UI/Try_OpenGL_UI.vcxproj
+Try_OpenGL_UI/Try_OpenGL_UI.vcxproj.filters
+Try_OpenGL_UI/Try_OpenGL_UI.vcxproj.user
+# Ignore folder
+.vs
+Try_OpenGL_UI/Debug/
+Debug/
+FreeTypeLib/
+SOIL/
+OpenGL_Libs/GLFW/docs/
+OpenGL_Libs/GLEW/doc/
+OpenGL_Libs/GLEW/bin/
+Fonts/
+Resources/
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
