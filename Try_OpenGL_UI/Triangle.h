@@ -1,45 +1,45 @@
 #ifndef _TRIANGLE_H_
 #define _TRIANGLE_H_
 
-#include "Math.h"
+#include "Object.h"
 #include "GLEW_Structure.h"
 #include "GLFW_Structure.h"
 #include <vector>
 
 namespace primitives {
 	template<typename T>
-	class Triangle
+	class Triangle : public Object<T>
 	{
 	public:
-		Triangle(math::Point3<T> f, math::Point3<T> s, math::Point3<T> t) {
+		Triangle(math::Point3<T> f, math::Point3<T> s, math::Point3<T> t):
+			IsFill(this, &Triangle::SetIsFill, &Triangle::GetIsFill)
+		{
 			this->first = f;
 			this->second = s;
 			this->third = t;
-			this->isFill = true;
-			this->rotateDegree = 50;
+			this->IsFill = true;
+			this->Rotate = 0;
+			this->Center = math::Point3<T>(first.x + second.x + third.x, first.y + second.y + third.y, first.z + second.z + third.z) / 3.0;
 		}
 
-		void Rotate() {
-			math::Point3<T> center = this->getCenter();
+		void ApplyRotate() {
+			math::Point3<T> center = this->GetCenter();
 			glTranslatef(center.x, center.y, center.z);//tranlate by p where p is the point you want to rotate about
-			glRotatef(rotateDegree, 0, 0, 1);//rotate by some degrees
+			glRotatef(this->Rotate, 0, 0, 1);//rotate by some degrees
 			glTranslatef(-center.x, -center.y, -center.z);//tranlate back by -p
 		}
 
 		void Move(math::Point3<T> to) {
-			math::Point3<T> center = this->getCenter();
-			math::Point3<T> delta;
-			delta = to - center;
+			math::Point3<T> center = this->Center;
+			math::Point3<T> delta = to - center;
 			first = first + delta;
 			second = second + delta;
 			third = third + delta;
+			this->Center = to;
 		}
 
-		math::Point3<T> getCenter() {
-			return math::Point3<T>(first.x + second.x + third.x, first.y + second.y + third.y, first.z + second.z + third.z) / 3.0;
-		}
-		std::vector<T> getData() {
-			if (this->isFill) {
+		std::vector<T> GetData() {
+			if (this->IsFill) {
 				return {
 					first.x, first.y, first.z,
 					second.x, second.y, second.z,
@@ -57,24 +57,18 @@ namespace primitives {
 				};
 			}
 		}
-		bool IsFill() {
+
+		bool GetIsFill() {
 			return isFill;
 		}
-		void setIsFill(bool filled) {
+		void SetIsFill(bool filled) {
 			this->isFill = filled;
 		}
+		Property<Triangle, bool> IsFill;
 
-		T getRotate() {
-			return rotateDegree;
-		}
-
-		void setRotate(T degree) {
-			rotateDegree = degree;
-		}
 	private:
 		math::Point3<T> first, second, third;
 		bool isFill;
-		T rotateDegree;
 	};
 }
 

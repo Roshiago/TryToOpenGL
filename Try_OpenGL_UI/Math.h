@@ -1,9 +1,6 @@
 #ifndef _MATH_H
 #define _MATH_H
 #include <cmath>
-#include <variant>
-
-#define Type2Enum(T) std::is_same<T, float>::value ? (GL_FLOAT) : (std::is_same<T, double>::value ? GL_DOUBLE : GL_INT);
 
 namespace math {
 	using uchar = unsigned char;
@@ -37,8 +34,6 @@ namespace math {
 		math::Color* operator->() {
 			return this;
 		}
-	private:
-		//uchar rgba[4];
 	};
 
 	template<typename T>

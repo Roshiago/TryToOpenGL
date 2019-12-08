@@ -1,7 +1,6 @@
 #pragma once
-#ifndef _RENDERE_H_
-
-#include "Math.h"
+#ifndef _RENDERER_H_
+#define _RENDERER_H_
 
 //---------------
 #include "Triangle.h"
@@ -71,16 +70,15 @@ public:
 	template<typename T>
 	void DrawTriangle(primitives::Triangle<T> t) {
 		glEnableClientState(GL_VERTEX_ARRAY);
-		std::vector<T> data = t.getData();
-		GLenum type = Type2Enum(T);
+		std::vector<T> data = t.Data;
 		glPushMatrix();
-		t.Rotate();
-		if (t.IsFill()) {
-			glVertexPointer(3, type, 0, data.data());
+		t.ApplyRotate();
+		if (t.GetIsFill()) {
+			glVertexPointer(3, t.Type, 0, data.data());
 			glDrawArrays(GL_TRIANGLES, 0, 3);
 		}
 		else {
-			glVertexPointer(3, type, 0, data.data());
+			glVertexPointer(3, t.Type, 0, data.data());
 			glDrawArrays(GL_LINES, 0, 6);
 		}
 		glPopMatrix();
@@ -90,11 +88,10 @@ public:
 	template<typename T>
 	void DrawLine(primitives::Line<T> t) {
 		glEnableClientState(GL_VERTEX_ARRAY);
-		GLenum type = Type2Enum(T);
-		std::vector<T> data = t.getData();
+		std::vector<T> data = t.Data;
 		glPushMatrix();
-		t.Rotate();
-		glVertexPointer(3, type, 0, data.data());
+		t.ApplyRotate();
+		glVertexPointer(3, t.Type, 0, data.data());
 		glDrawArrays(GL_LINES, 0, 2);
 		glPopMatrix();
 		glDisableClientState(GL_VERTEX_ARRAY);
@@ -104,6 +101,6 @@ public:
 };
 
 
-#endif // !_RENDERE_H_
+#endif // !_RENDERER_H_
 
 

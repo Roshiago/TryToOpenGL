@@ -7,6 +7,8 @@ constexpr auto READ_ONLY = 1;
 constexpr auto WRITE_ONLY = 2;
 constexpr auto READ_WRITE = 3;
 
+#define Type2Enum(T) std::is_same<T, float>::value ? (GL_FLOAT) : (std::is_same<T, double>::value ? GL_DOUBLE : GL_INT);
+
 template <typename Container, typename ValueType, int nPropType = READ_WRITE>
 class Property
 {

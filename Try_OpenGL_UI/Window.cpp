@@ -42,26 +42,33 @@ void Window::MainLoop()
 
 	primitives::Triangle<GLfloat> triangle(first, second, third);
 
-	triangle.setIsFill(false);
+	triangle.SetIsFill(false);
 
 	double prevTime = 0.0;
 
 	math::Color color(0xFF000000);
 	std::cout << sizeof(math::Color) << std::endl;
+
+	float rotate = 0.0f;
+
 	while (this->IsTerminate())
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		double currTime = glfwGetTime();
-		triangle.Move(Point3(cursorPos.x, cursorPos.y, 0.0f));
+		triangle.Move(Point3<float>(cursorPos.x, cursorPos.y, 0.0f));
 		RP.DrawTriangle(triangle);
 		RP.DrawLine(line);
 		deltaTime = currTime - prevTime;
 		prevTime = currTime;
-		/*GLfloat r = line.getRotate();
-		r += 20.0f * deltaTime;
-		line.setRotate(r);*/
 
-		auto cT = triangle.getCenter(), cL = line.getCenter();
+		rotate += 50.0f * deltaTime;
+		if (rotate > 360.0f) {
+			rotate -= 360;
+		}
+		triangle.Rotate = rotate;
+		line.Rotate = rotate;
+
+		math::Point3<float> cT = triangle.Center, cL = line.Center;
 
 		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
 		glColor4ubv(color());

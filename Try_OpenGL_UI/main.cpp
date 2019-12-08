@@ -2,11 +2,11 @@
 #include <string>
 
 #include "Window.h"
-#include "Object.h"
 
 static void error_callback(int error, const char* description)
 {
     puts(description);
+    std::cout << std::endl;
 }
 
 int main()
