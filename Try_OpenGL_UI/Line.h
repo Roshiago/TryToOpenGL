@@ -16,12 +16,6 @@ namespace primitives {
 			this->end = e;
 			this->Center = math::Point3<T>({start.x+end.x, start.y + end.y, start.z + end.z}) / 2.0;
 		}
-		void ApplyRotate() {
-			math::Point3<T> center = this->Center;
-			glTranslatef(center.x, center.y, center.z);//tranlate by p where p is the point you want to rotate about
-			glRotatef(this->Rotate, 0, 0, 1);//rotate by some degrees
-			glTranslatef(-center.x, -center.y, -center.z);//tranlate back by -p
-		}
 
 		void Move(math::Point3<T> to) {
 			math::Point3<T> center = this->Center;

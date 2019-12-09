@@ -7,6 +7,7 @@ Window::Window(size_t width, size_t height, const char* title) {
 	this->windowHandler = GLFW::GetWindow(this->uiWidth, this->uiHeight, title);
 	glfwMakeContextCurrent(this->windowHandler);
 
+	//todo: hidding this
 	glViewport(0, 0, this->uiWidth, this->uiHeight);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -42,11 +43,14 @@ void Window::MainLoop()
 
 	primitives::Triangle<GLfloat> triangle(first, second, third);
 
-	triangle.SetIsFill(false);
+	triangle.IsFill = false;
+	triangle.Color = math::Color(255,0,0);
 
-	double prevTime = 0.0;
+	line.Color = math::Color(0, 0, 255);
 
-	math::Color color(0xFF000000);
+	float prevTime = 0.0;
+
+	math::Color color(0x00FF0000);
 	std::cout << sizeof(math::Color) << std::endl;
 
 	float rotate = 0.0f;
@@ -54,7 +58,7 @@ void Window::MainLoop()
 	while (this->IsTerminate())
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
-		double currTime = glfwGetTime();
+		float currTime = static_cast<float>(glfwGetTime());
 		triangle.Move(Point3<float>(cursorPos.x, cursorPos.y, 0.0f));
 		RP.DrawTriangle(triangle);
 		RP.DrawLine(line);
@@ -70,18 +74,18 @@ void Window::MainLoop()
 
 		math::Point3<float> cT = triangle.Center, cL = line.Center;
 
-		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
+		glPushAttrib(GL_COLOR_BUFFER_BIT);
 		glColor4ubv(color());
 		RP.DrawPoint(math::Point2(cT.x,cT.y));
 		glPopAttrib();
 
-		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
+		glPushAttrib(GL_COLOR_BUFFER_BIT);
 		glColor4ubv(color());
 		RP.DrawPoint(math::Point2(cL.x, cL.y));
 		glPopAttrib();
 
 		double fps = 1.0 / deltaTime;
-		std::cout << fps << std::endl;
+		//std::cout << fps << std::endl;
 
 		glfwSwapBuffers(this->windowHandler);
 		glfwPollEvents();

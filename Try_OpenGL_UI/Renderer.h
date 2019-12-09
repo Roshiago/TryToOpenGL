@@ -31,6 +31,8 @@ public:
 	template<typename T>
 	void DrawPoint(Point2<T> point) {
 		glEnableClientState(GL_VERTEX_ARRAY);
+		PRINT_DEBUG("DRAW POINT");
+		GLFW::print_error();
 		GLfloat position[] = {
 			point.x, point.y, 0
 		};
@@ -70,8 +72,12 @@ public:
 	template<typename T>
 	void DrawTriangle(primitives::Triangle<T> t) {
 		glEnableClientState(GL_VERTEX_ARRAY);
+		PRINT_DEBUG("DRAW TRIANGLE");
+		GLFW::print_error();
 		std::vector<T> data = t.Data;
 		glPushMatrix();
+		glPushAttrib(GL_COLOR_BUFFER_BIT);
+		t.ApplyColor();
 		t.ApplyRotate();
 		if (t.GetIsFill()) {
 			glVertexPointer(3, t.Type, 0, data.data());
@@ -81,6 +87,7 @@ public:
 			glVertexPointer(3, t.Type, 0, data.data());
 			glDrawArrays(GL_LINES, 0, 6);
 		}
+		glPopAttrib();
 		glPopMatrix();
 		glDisableClientState(GL_VERTEX_ARRAY);
 	}
@@ -88,11 +95,16 @@ public:
 	template<typename T>
 	void DrawLine(primitives::Line<T> t) {
 		glEnableClientState(GL_VERTEX_ARRAY);
+		PRINT_DEBUG("DRAW LINE");
+		GLFW::print_error();
 		std::vector<T> data = t.Data;
 		glPushMatrix();
+		glPushAttrib(GL_COLOR_BUFFER_BIT);
+		t.ApplyColor();
 		t.ApplyRotate();
 		glVertexPointer(3, t.Type, 0, data.data());
 		glDrawArrays(GL_LINES, 0, 2);
+		glPopAttrib();
 		glPopMatrix();
 		glDisableClientState(GL_VERTEX_ARRAY);
 	}

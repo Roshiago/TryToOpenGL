@@ -2,6 +2,7 @@
 #define _GLFW_STRUCTURE_HEADER_
 
 #include <GLFW/glfw3.h>
+#define PRINT_DEBUG(str)  std::cerr << "DEBUG: " << str << std::endl
 
 namespace GLFW
 {
@@ -44,6 +45,15 @@ namespace GLFW
 	static T* getUserPointer(GLFWwindow* window)
 	{
 		return (T*)glfwGetWindowUserPointer(window);
+	}
+
+	static void print_error() {
+		GLenum err = glGetError();
+		while (err) {
+			std::cerr << "Error number: " << err << ";" << std::endl;
+			std::cerr << "Message: " << glewGetErrorString(err) << ";" << std::endl;
+			err = glGetError();
+		}
 	}
 
 	static GLFWwindow* GetWindow(GLint width, GLint height, const char * title, GLFWmonitor* monitor = NULL, GLFWwindow* share = NULL)

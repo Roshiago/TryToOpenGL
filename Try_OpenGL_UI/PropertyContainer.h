@@ -53,11 +53,6 @@ public:
 		return value;
 	}
 
-	ValueType operator->() {
-		assert(m_cObject != NULL);
-		assert(Get != NULL);
-		return (m_cObject->*Get)();
-	}
 	operator ValueType()
 	{
 		assert(m_cObject != NULL);

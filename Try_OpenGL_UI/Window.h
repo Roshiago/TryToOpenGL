@@ -27,7 +27,7 @@ private:
 	size_t uiHeight, uiWidth;
 	GLFWwindow* windowHandler;
 	std::string strTitle;
-	double deltaTime;
+	float deltaTime;
 	math::Point2<GLfloat> cursorPos;
 };
 namespace events 

@@ -2,10 +2,11 @@
 #define _OBJECT_H_
 
 #include "Math.h"
-#include <vector>
 #include "PropertyContainer.h"
 #include "GLEW_Structure.h"
 #include "GLFW_Structure.h"
+
+#include <vector>
 
 template<typename T>
 class Object
@@ -73,9 +74,22 @@ public:
 	Property<Object, std::vector<T>, READ_ONLY> Data;
 	Property<Object, GLenum, READ_ONLY> Type;
 	
-
+	virtual void ApplyColor() 
+	{
+		PRINT_DEBUG("COLOR SET");
+		math::Color color = this->Color;
+		glColor4ubv(color());
+		GLFW::print_error();
+		PRINT_DEBUG("END COLOR SET");
+	};
 	virtual void Move(math::Point3<T> point) {};
-	virtual void ApplyRotate() {};
+	virtual void ApplyRotate() 
+	{
+		math::Point3<T> center = this->GetCenter();
+		glTranslatef(center.x, center.y, center.z);//tranlate by p where p is the point you want to rotate about
+		glRotatef(this->Rotate, 0, 0, 1);//rotate by some degrees
+		glTranslatef(-center.x, -center.y, -center.z);//tranlate back by -p
+	};
 	
 private:
 	math::Point3<T> center;

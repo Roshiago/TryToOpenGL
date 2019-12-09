@@ -19,14 +19,7 @@ namespace primitives {
 			this->third = t;
 			this->IsFill = true;
 			this->Rotate = 0;
-			this->Center = math::Point3<T>(first.x + second.x + third.x, first.y + second.y + third.y, first.z + second.z + third.z) / 3.0;
-		}
-
-		void ApplyRotate() {
-			math::Point3<T> center = this->GetCenter();
-			glTranslatef(center.x, center.y, center.z);//tranlate by p where p is the point you want to rotate about
-			glRotatef(this->Rotate, 0, 0, 1);//rotate by some degrees
-			glTranslatef(-center.x, -center.y, -center.z);//tranlate back by -p
+			this->Center = this->calcCenter();
 		}
 
 		void Move(math::Point3<T> to) {
@@ -69,6 +62,11 @@ namespace primitives {
 	private:
 		math::Point3<T> first, second, third;
 		bool isFill;
+		math::Point3<T> calcCenter() {
+			return math::Point3<T>(first.x + second.x + third.x,
+									first.y + second.y + third.y,
+									first.z + second.z + third.z) / 3.0;
+		}
 	};
 }
 

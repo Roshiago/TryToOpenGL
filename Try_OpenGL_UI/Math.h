@@ -31,9 +31,6 @@ namespace math {
 		uchar* operator()() {
 			return (uchar*)&r;
 		}
-		math::Color* operator->() {
-			return this;
-		}
 	};
 
 	template<typename T>
@@ -119,11 +116,18 @@ namespace math {
 		template<typename H>
 		Point3<T> operator/(H right) {
 			Point3<T> temp(this->x, this->y, this->z);
-			temp.x /= right;
-			temp.y /= right;
-			temp.z /= right;
+			T value = static_cast<T>(right);
+			temp.x /= value;
+			temp.y /= value;
+			temp.z /= value;
 			return temp;
 		}
+
+		template<typename H>
+		operator H() {
+			return Point3<H>(x,y,z);
+		}
+
 	public:
 		T x;
 		T y;
